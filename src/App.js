@@ -3,7 +3,7 @@ import './App.css';
 import {useDispatch, useSelector} from "react-redux"
 import {addCustomerAction, removeCustomerAction} from "./store/customerReducer";
 import {addCashAction, getCashAction} from "./store/cashReducer";
-
+import {fetchCustomers} from "./asyncActions/customers"
 function App() {
     const dispatch = useDispatch()
     const cash = useSelector(state => state.cash.cash)
@@ -45,6 +45,7 @@ function App() {
             <button onClick={addCash}>cash +</button>
             <button onClick={getCash}>cash -</button>
             <button onClick={addCustomer}>customer +</button>
+            <button onClick={() => dispatch(fetchCustomers())}>fetch</button>
             {/*<button onClick={getCustomer}>customer -</button>*/}
         </div>
     );
