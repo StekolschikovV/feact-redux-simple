@@ -5,7 +5,9 @@ import {useDispatch, useSelector} from "react-redux"
 function App() {
     const dispatch = useDispatch()
     const cash = useSelector(state => state.cash.cash)
-    const customer = useSelector(state => state.customer.customer)
+    const customers = useSelector(state => state.customer.customers)
+
+    console.log('customers', customers)
 
     const addCash = () => {
         dispatch({type: "ADD_CASH", payload: 2})
@@ -16,21 +18,34 @@ function App() {
     }
 
     const addCustomer = () => {
-        dispatch({type: "ADD_CUSTOMER", payload: 2})
+        const id = Date.now()
+        dispatch({
+            type: "ADD_CUSTOMER", payload: {
+                id: Date.now(),
+                name: "name" + id
+            }
+        })
     }
 
-    const getCustomer = () => {
-        dispatch({type: "GET_CUSTOMER", payload: 2})
+    const removeCustomer = (customer) => {
+        console.log('rm', customer)
+        dispatch({
+            type: "REMOVE_CUSTOMER", payload: customer.id
+        })
     }
 
     return (
         <div className="App">
-            <div>customer: {customer}</div>
+            <div>customer: {customers.length}
+            </div>
+            <div>
+                { customers.map(customer => <div onClick={() => removeCustomer(customer)} key={customer.id}>{customer.name}</div>) }
+            </div>
             <div>cash: {cash}</div>
             <button onClick={addCash}>cash +</button>
             <button onClick={getCahs}>cash -</button>
             <button onClick={addCustomer}>customer +</button>
-            <button onClick={getCustomer}>customer -</button>
+            {/*<button onClick={getCustomer}>customer -</button>*/}
         </div>
     );
 }
