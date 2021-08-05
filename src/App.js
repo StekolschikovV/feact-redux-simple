@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import {useDispatch, useSelector} from "react-redux"
+import {addCustomerAction, removeCustomerAction} from "./store/customerReducer";
+import {addCashAction, getCashAction} from "./store/cashReducer";
 
 function App() {
     const dispatch = useDispatch()
@@ -10,28 +12,25 @@ function App() {
     console.log('customers', customers)
 
     const addCash = () => {
-        dispatch({type: "ADD_CASH", payload: 2})
+        dispatch(addCashAction(2))
     }
 
-    const getCahs = () => {
-        dispatch({type: "GET_CASH", payload: 2})
+    const getCash = () => {
+        dispatch(getCashAction(2))
     }
 
     const addCustomer = () => {
         const id = Date.now()
-        dispatch({
-            type: "ADD_CUSTOMER", payload: {
+        dispatch(
+            addCustomerAction({
                 id: Date.now(),
                 name: "name" + id
-            }
-        })
+            })
+        )
     }
 
     const removeCustomer = (customer) => {
-        console.log('rm', customer)
-        dispatch({
-            type: "REMOVE_CUSTOMER", payload: customer.id
-        })
+        dispatch(removeCustomerAction(customer.id))
     }
 
     return (
@@ -39,11 +38,12 @@ function App() {
             <div>customer: {customers.length}
             </div>
             <div>
-                { customers.map(customer => <div onClick={() => removeCustomer(customer)} key={customer.id}>{customer.name}</div>) }
+                {customers.map(customer => <div onClick={() => removeCustomer(customer)}
+                                                key={customer.id}>{customer.name}</div>)}
             </div>
             <div>cash: {cash}</div>
             <button onClick={addCash}>cash +</button>
-            <button onClick={getCahs}>cash -</button>
+            <button onClick={getCash}>cash -</button>
             <button onClick={addCustomer}>customer +</button>
             {/*<button onClick={getCustomer}>customer -</button>*/}
         </div>
